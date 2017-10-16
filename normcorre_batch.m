@@ -36,9 +36,11 @@ if isa(Y,'char')
         T = sizY(end);
     elseif strcmpi(ext,'hdf5') || strcmpi(ext,'h5');
         filetype = 'hdf5';
-        fileinfo = hdf5info(Y);
-        data_name = fileinfo.GroupHierarchy.Datasets.Name;
-        sizY = fileinfo.GroupHierarchy.Datasets.Dims;
+%         fileinfo = hdf5info(Y);
+%         data_name = fileinfo.GroupHierarchy.Datasets.Name;
+%         sizY = fileinfo.GroupHierarchy.Datasets.Dims;
+        data_name = '/Data/Images';
+        sizY = get_dataset_info(Y, data_name);
         T = sizY(end);
     elseif strcmpi(ext,'raw')
         filetype = 'raw';
@@ -136,7 +138,8 @@ switch filetype
     case 'raw'
          Y_temp = read_raw_file(Y,1,init_batch,FOV,bitsize);
 end
-data_type = class(Y_temp);
+% data_type = class(Y_temp);
+data_type = 'single';
 Y_temp = single(Y_temp);
 
 if nargin < 3 || isempty(template)
